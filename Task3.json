@@ -1,0 +1,183 @@
+// 1 - deploy on Azure API Management to connect to an on-premises get and post APIs.
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "OnPremisesAPI",
+    "version": "1.0"
+  },
+  "host": "localhost:5000",
+  "schemes": ["http"],
+  "paths": {
+    "/data": {
+      "get": {
+        "summary": "Get Data",
+        "operationId": "getData",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      },
+      "post": {
+        "summary": "Post Data",
+        "operationId": "postData",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    }
+  }
+}
+
+// 2 - i- i.a record from another tables of Dynamics 365 and update the source data prior to update to dynamics 365.
+{
+  "name": "CopyFromDynamics",
+  "type": "Copy",
+  "source": {
+    "type": "DynamicsSource",
+    "query": "SELECT * FROM TableName WHERE condition = 'value'"
+  },
+  "sink": {
+    "type": "SqlSink",
+    "tableName": "StagingTable"
+  }
+}
+
+// 2 - ii- an appropriate GUID from another Dynamics 365 and update the source data. Support same with some snapshots. 
+{
+  "name": "LookupGUID",
+  "type": "Lookup",
+  "typeProperties": {
+    "source": {
+      "type": "SqlSource",
+      "sqlReaderQuery": "SELECT GUID FROM ReferenceTable WHERE KeyField = 'value'"
+    }
+  }
+}
+// Transformation mapping
+{
+  "mappings": [
+    {
+      "source": "GUID",
+      "target": "TargetGUIDField"
+    }
+  ]
+}
+
+// 3- Create and demonstrate an Azure Data pipeline
+{
+  "name": "TransformContactData",
+  "type": "MappingDataFlow",
+  "typeProperties": {
+    "source": {
+      "dataset": "SourceContactDataset",
+      "mapping": [
+        { "source": "CustomerID", "target": "CustomerNumber" },
+        { "source": "FirstName", "target": "FirstName" },
+        { "source": "LastName", "target": "LastName" },
+        { "source": "Country", "target": "Country" },
+        { "source": "Manager", "target": "Manager" },
+        { "source": "Phone", "target": "Phone" },
+        { "source": "Owner", "target": "Owner" }
+      ]
+    },
+    "transformations": [
+      {
+        "name": "SelectFields",
+        "type": "Select",
+        "columns": [
+          { "name": "CustomerNumber"},
+          { "name": "FirstName"},
+          { "name": "LastName"},
+          { "name": "Country"},
+          { "name": "Manager"},
+          { "name": "Phone"},
+          { "name": "Owner"}
+        ]
+      }
+    ]
+  }
+}
+// configuration for Copy Activity with Upsert 
+{
+  "name": "CopyContactsToDynamics",
+  "type": "Copy",
+  "source": {
+    "type": "AzureSqlSource",
+    "query": "SELECT * FROM Contacts WHERE Updated = 1"
+  },
+  "sink": {
+    "type": "DynamicsSink",
+    "entityName": "contact",
+    "writeBehavior": "Upsert",
+    "keyColumnMapping": {
+      "CustomerNumber": "CustomerNumber"
+    }
+  }
+}
+
+// 4- Configuration for Preserving Champs ‘createdon’, ‘createdby’ and ‘modifiedby’
+
+{
+  "type": "Copy",
+  "typeProperties": {
+    "source": {
+      "type": "SqlSource",
+      "sqlReaderQuery": "SELECT * FROM Leads"
+    },
+    "sink": {
+      "type": "DynamicsSink",
+      "entityName": "lead",
+      "writeBehavior": "Upsert"
+    },
+    "translator": {
+      "type": "TabularTranslator",
+      "mappings": [
+        {
+          "source": "createdon",
+          "sink": "overriddencreatedon"
+        },
+        {
+          "source": "createdby",
+          "sink": "historical_createdby"
+        },
+        {
+          "source": "modifiedby",
+          "sink": "historical_modifiedby"
+        }
+      ]
+    }
+  }
+}
+
+// 4 - LookUp conf
+{
+  "name": "Lookup_Contacts",
+  "type": "Lookup",
+  "typeProperties": {
+    "source": {
+      "type": "DynamicsSource",
+      "query": "contacts?$select=contactid,fullname"
+    },
+    "firstRowOnly": false
+  }
+
+::contentReference[oaicite:0]{index=0}
+ 
