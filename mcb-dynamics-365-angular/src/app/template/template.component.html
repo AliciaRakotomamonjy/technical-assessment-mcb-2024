@@ -1,0 +1,46 @@
+<mat-drawer-container >
+  <mat-drawer #drawer  [opened]="isDrawerOpen" [mode]="'side'">
+    <div class="sidebar-container">
+      <div class="sidenav-logo" >
+        <img src="../assets/images/logo/logo.png" width="40"  />
+      </div>
+
+      <div>
+        <mat-nav-list role="list" class="menu">
+              @for(menu of menus; track menu.link){
+              <a mat-list-item [routerLink]="menu.link" [class.menu-item]="true" [class.active]="menu.active" (click)="onItemClick(menu)" >
+                <div class="menu-item-text" >
+                  <mat-icon>{{menu.icon}}</mat-icon>
+                  <span>{{menu.label}}</span>
+                </div>
+
+              </a>
+            }
+        </mat-nav-list>
+      </div>
+    </div>
+
+  </mat-drawer>
+  <mat-drawer-content class="main-container" >
+    <mat-toolbar class="toolbar-container">
+      <button (click)="drawer.toggle()" mat-icon-button class="example-icon" aria-label="Icon button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="title" >{{selectedTitle}}</span>
+      <span class="toolbar-spacer"></span>
+      <button  mat-button [matMenuTriggerFor]="toolbarMenu">
+        <div class="toolbar-profile">
+          <!-- <img src="{{img}}" width="40" height="40" /> -->
+        </div>
+      </button>
+      <mat-menu #toolbarMenu="matMenu">
+        <!-- <button mat-menu-item (click)="goToProfile()" >Profile<mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="person"></mat-icon></button> -->
+        <button mat-menu-item (click)="deconnexion()">Déconnexion<mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="power_settings_new"></mat-icon></button>
+      </mat-menu>
+    </mat-toolbar>
+    <div class="content-container" >
+      <!-- <h1>{{selectedTitle}}</h1> -->
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

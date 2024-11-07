@@ -1,0 +1,9 @@
+/* notification.component.css */
+mat-card {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 300px;
+  background-color: #ffeb3b;
+  border: 1px solid #fbc02d;
+}

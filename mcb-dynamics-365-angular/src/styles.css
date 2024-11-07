@@ -1,0 +1,63 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+
+:root{
+  --primary: #053F5C;
+  --white: #f4f7fa;
+  --black: #1c1c1c;
+  --secondary: #2991c480;
+  --tertiary: #F27F0C;
+  --black: #2C2C2C;
+
+}
+
+@font-face {
+  font-family: 'Ubuntu-Regular';
+  src: url('./assets/fonts/Ubuntu-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Ubuntu-Light';
+  src: url('./assets/fonts/Ubuntu-Light.ttf');
+}
+
+@font-face {
+  font-family: 'Ubuntu-Bold';
+  src: url('./assets/fonts/Ubuntu-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'Ubuntu-Italic';
+  src: url('./assets/fonts/Ubuntu-Italic.ttf');
+}
+
+@font-face {
+  font-family: 'Ubuntu-Medium';
+  src: url('./assets/fonts/Ubuntu-Medium.ttf');
+}
+
+* {
+  font-family: 'Ubuntu-Regular';
+}
+
+.medium-font{
+  font-family: 'Ubuntu-Medium';
+}
+
+.mat-mdc-header-cell {
+  font-family: 'Ubuntu-Bold';
+}
+
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+}
+.mat-mdc-text-field-wrapper {
+  background-color: white !important;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

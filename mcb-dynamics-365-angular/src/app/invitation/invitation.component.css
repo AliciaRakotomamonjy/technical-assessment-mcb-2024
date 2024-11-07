@@ -1,0 +1,50 @@
+/* Container for the cards */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 20px;
+  }
+  
+  .card {
+    flex: 1 1 calc(33.333% - 16px);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between; 
+    align-items: flex-end;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* cursor: pointer; */
+  }
+  
+  .card-content {
+    flex-grow: 1; 
+  }
+  
+  .refuse-btn {
+    background-color: #ff4c4c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .refuse-btn:hover {
+    background-color: #d43b3b;
+  }
+  @media (max-width: 768px) {
+    .card {
+      flex: 1 1 calc(50% - 16px); /
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .card {
+      flex: 1 1 100%; 
+    }
+  }
+  

@@ -1,0 +1,75 @@
+# Fichiers binaires de compilation
+bin/
+obj/
+out/
+
+# Fichiers de configuration et de build
+*.dll
+*.exe
+*.pdb
+*.mdb
+*.log
+
+# Fichiers de test
+*.TestResults/
+*.vs/
+.vscode/
+TestResults/
+
+# Fichiers de publication
+*.publish/
+*.app/
+
+# Fichiers de débogage et de trace
+*.swp
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Fichiers temporaires
+*.tmp
+*.temp
+*.bak
+
+# Fichiers spécifiques à NuGet
+*.nupkg
+*.snupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+
+# Logs et fichier de debug
+*.log
+logs/
+
+# Secrets de développement et fichiers de configuration utilisateurs
+appsettings.*.json
+secrets.json
+
+# Fichiers générés par Rider et Visual Studio
+.idea/
+*.rsuser
+*.ide/
+.vs/
+
+# Exclure les dossiers de packaging
+artifacts/
+_dist/
+
+# Cache du serveur
+server/
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Extensions locales
+*.swp
+
+# Fichiers de build locaux pour Docker
+Dockerfile
+
+# Fichiers générés lors de l'intégration CI/CD
+coverage/
+Releases/
